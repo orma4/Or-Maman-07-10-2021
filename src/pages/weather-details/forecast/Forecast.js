@@ -2,16 +2,16 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "../../../redux/hooks";
 import { setForecast } from "../../../redux/slices/countriesSlice";
 import { setError } from "../../../redux/slices/rootSlice";
-import { Paper } from "@mui/material";
-import http from "../../../axios";
+import { Paper, Grid, Skeleton } from "@mui/material";
+import http, { API_KEY } from "../../../axios";
 import moment from "moment";
+import { CardBg } from "../../../components";
 
 export const Forecast = () => {
   const { selectedCountry, forecast, temperatureMode } = useSelector(
     (state) => state.countries
   );
   const dispatch = useDispatch();
-  const API_KEY = "oFMAaYMW5Wt6vMwZ2GsEbFldd4pExTsK"; // TODO: Extract to env file
 
   useEffect(() => {
     const getFiveDaysForecast = async () => {
@@ -38,19 +38,42 @@ export const Forecast = () => {
   }, [selectedCountry, dispatch, temperatureMode]);
 
   return (
-    <div>
-      {forecast.map(({ Date, Temperature }, index) => {
-        return (
-          <Paper key={index}>
-            <p>{moment(Date).format("L")}</p>
-            <p>
-              {Temperature?.Maximum?.Value}
-              {temperatureMode === "Metric" ? "C" : "F"}
-            </p>
-          </Paper>
-        );
-      })}
-    </div>
+    <Grid container justifyContent="space-between" spacing={2}>
+      {forecast.length > 0
+        ? forecast.map(({ Date, Temperature }, index) => {
+            return (
+              <Grid item xs={12} md={2} key={index}>
+                <Paper
+                  sx={{
+                    height: "15rem",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexDirection: "column",
+                    position: "relative",
+                  }}
+                >
+                  <CardBg />
+                  <strong>{moment(Date).format("dddd")}</strong>
+                  <p>
+                    {Temperature?.Maximum?.Value}
+                    {temperatureMode === "Metric" ? "C" : "F"}
+                  </p>
+                </Paper>
+              </Grid>
+            );
+          })
+        : new Array(5)
+            .fill(1)
+            .map((slot, index) => (
+              <Skeleton
+                key={index}
+                animation="wave"
+                variant="rectangular"
+                sx={{ width: "18rem", height: "15rem" }}
+              />
+            ))}
+    </Grid>
   );
 };
 

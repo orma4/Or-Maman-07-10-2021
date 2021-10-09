@@ -2,11 +2,11 @@ import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 
+import { BrowserRouter as Router } from "react-router-dom";
+
 // Redux
 import { store } from "./redux/store";
 import { Provider as StoreProvider } from "react-redux";
-
-import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
   <Suspense fallback={<div>Loading...</div>}>

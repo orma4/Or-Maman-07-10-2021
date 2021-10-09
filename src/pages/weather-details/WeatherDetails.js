@@ -4,17 +4,16 @@ import CurrentWeather from "./current-weather/CurrentWeather";
 import Forecast from "./forecast/Forecast";
 import AddToFavorite from "./add-to-favorite/AddToFavorite";
 import { Grid } from "@mui/material";
-import http from "../../axios";
+import http, { API_KEY } from "../../axios";
 import { useDispatch } from "../../redux/hooks";
 import { setSelectedCountry } from "../../redux/slices/countriesSlice";
 import { setError } from "../../redux/slices/rootSlice";
 
 export const WeatherDetails = () => {
   const dispatch = useDispatch();
-  const API_KEY = "oFMAaYMW5Wt6vMwZ2GsEbFldd4pExTsK"; // TODO: Extract to env file
 
   useEffect(() => {
-    // Initiate the app with current location data
+    // BONUS Mission: Initiate the app with current location data
     const getInitialCoords = () => {
       return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve);
@@ -37,7 +36,6 @@ export const WeatherDetails = () => {
           )
         );
       }
-      console.log(coords);
     };
 
     getCurrentLocation();
@@ -46,8 +44,8 @@ export const WeatherDetails = () => {
   return (
     <div>
       <SearchCity />
-      <Grid container justifyContent="space-between" sx={{ mb: "40px" }}>
-        <Grid item>
+      <Grid container justifyContent="space-between" sx={{ mb: "4rem" }}>
+        <Grid item xs={12} md={3}>
           <CurrentWeather />
         </Grid>
         <Grid item>

@@ -2,10 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   temperatureMode: "Metric",
-  selectedCountry: {
-    Key: "215854",
-    LocalizedName: "Tel Aviv",
-  },
+  selectedCountry: {},
   currentWeather: {},
   forecast: [],
   favorites: [],

@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import routes from "./routes";
-import { Alert, Container, styled } from "@mui/material";
+import { Alert, Container, Paper, useMediaQuery } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "@mui/material/styles";
 import getDesignTokens from "./theme";
@@ -9,13 +9,9 @@ import { Navbar } from "./components";
 import { useSelector } from "./redux/hooks";
 import "./App.css";
 
-const AppBackground = styled("div")`
-  /* background: ${(props) => props.theme.palette.primary.main}; */
-  min-height: 100vh;
-`;
-
 function App() {
   const { error, themeMode } = useSelector((state) => state.root);
+  const isSmallScreen = useMediaQuery("(max-width: 767px)");
 
   const theme = useMemo(
     () => createTheme(getDesignTokens(themeMode)),
@@ -24,8 +20,8 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBackground>
-        <Container sx={{ pt: "20px" }}>
+      <Paper sx={{ minHeight: "100vh" }}>
+        <Container sx={{ pt: "2rem", pb: "2rem" }}>
           <Navbar />
 
           {error && (
@@ -34,10 +30,10 @@ function App() {
               sx={{
                 position: "absolute",
                 left: 0,
-                top: 0,
+                bottom: 0,
                 zIndex: 99,
-                width: "97%",
-                m: 1,
+                width: isSmallScreen ? "auto" : "97%",
+                m: "3.5rem 1rem 3.5rem",
               }}
             >
               {error}
@@ -54,7 +50,7 @@ function App() {
             })}
           </Switch>
         </Container>
-      </AppBackground>
+      </Paper>
     </ThemeProvider>
   );
 }

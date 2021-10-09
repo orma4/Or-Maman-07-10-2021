@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Autocomplete, TextField, Grid } from "@mui/material";
-import http from "../../../axios";
+import { Autocomplete, TextField, Grid, useMediaQuery } from "@mui/material";
+import http, { API_KEY } from "../../../axios";
 import { useDispatch } from "../../../redux/hooks";
 import { setError } from "../../../redux/slices/rootSlice";
 import { setSelectedCountry } from "../../../redux/slices/countriesSlice";
@@ -9,8 +9,8 @@ export const SearchCity = () => {
   const [citiesOptions, setCitiesOptions] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [autocompleteError, setAutocompleteError] = useState(false);
-  const API_KEY = "oFMAaYMW5Wt6vMwZ2GsEbFldd4pExTsK"; // TODO: Extract to env file
   const dispatch = useDispatch();
+  const isSmallScreen = useMediaQuery("(max-width: 767px)");
 
   useEffect(() => {
     const fetchCities = async () => {
@@ -42,13 +42,18 @@ export const SearchCity = () => {
   };
 
   return (
-    <Grid container justifyContent="center" sx={{ mb: "40px" }}>
-      <Grid item>
+    <Grid
+      container
+      justifyContent={isSmallScreen ? "flex-start" : "center"}
+      sx={{ mb: "4rem" }}
+    >
+      <Grid item sx={{ width: isSmallScreen ? "100%" : "auto" }}>
         <Autocomplete
           disablePortal
           options={citiesOptions}
-          sx={{ width: 300 }}
+          sx={{ width: isSmallScreen ? "auto" : "30rem" }}
           popupIcon={null}
+          noOptionsText="Start typing..."
           getOptionLabel={(option) => option.LocalizedName}
           renderOption={(props, option) => {
             return (

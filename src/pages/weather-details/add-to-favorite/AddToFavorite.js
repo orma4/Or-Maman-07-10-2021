@@ -3,7 +3,22 @@ import {
   addToFavorites,
   removeFromFavorites,
 } from "../../../redux/slices/countriesSlice";
-import { Paper } from "@mui/material";
+import { styled, Button, Skeleton } from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import { mobile } from "../../../utils/styles/screen-sizes";
+
+const StyledContainer = styled("div")`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25rem;
+  height: 100%;
+
+  @media ${mobile} {
+    width: auto;
+  }
+`;
 
 export const AddToFavorite = () => {
   const dispatch = useDispatch();
@@ -16,20 +31,28 @@ export const AddToFavorite = () => {
 
   return (
     <>
-      {selectedCountry?.LocalizedName && (
-        <Paper sx={{ p: "30px", width: "230px", height: "150px" }}>
+      {selectedCountry?.LocalizedName ? (
+        <StyledContainer>
           {existInFavorites ? (
-            <button
+            <Button
               onClick={() => dispatch(removeFromFavorites(selectedCountry.Key))}
             >
-              Remove from favorites
-            </button>
+              <FavoriteIcon />
+              <span style={{ marginLeft: "1rem" }}>Remove from favorites</span>
+            </Button>
           ) : (
-            <button onClick={() => dispatch(addToFavorites(selectedCountry))}>
-              Add to favorites
-            </button>
+            <Button onClick={() => dispatch(addToFavorites(selectedCountry))}>
+              <FavoriteBorderOutlinedIcon />
+              <span style={{ marginLeft: "1rem" }}>Add to favorites</span>
+            </Button>
           )}
-        </Paper>
+        </StyledContainer>
+      ) : (
+        <Skeleton
+          animation="wave"
+          variant="rectangular"
+          sx={{ width: "18rem", height: "15rem" }}
+        />
       )}
     </>
   );

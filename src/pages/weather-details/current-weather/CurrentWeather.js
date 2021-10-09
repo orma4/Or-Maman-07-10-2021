@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import http from "../../../axios";
-import { Paper, Grid } from "@mui/material";
+import http, { API_KEY } from "../../../axios";
+import { Paper, Grid, useMediaQuery, Skeleton } from "@mui/material";
 import { useSelector, useDispatch } from "../../../redux/hooks";
 import { setError } from "../../../redux/slices/rootSlice";
 import { setCurrentWeather } from "../../../redux/slices/countriesSlice";
+import { CardBg } from "../../../components";
 
 export const CurrentWeather = () => {
   const [temperature, setTemperature] = useState("");
@@ -11,7 +12,7 @@ export const CurrentWeather = () => {
     (state) => state.countries
   );
   const dispatch = useDispatch();
-  const API_KEY = "oFMAaYMW5Wt6vMwZ2GsEbFldd4pExTsK"; // TODO: Extract to env file
+  const isSmallScreen = useMediaQuery("(max-width: 767px)");
 
   useEffect(() => {
     const getCurrentWeather = async () => {
@@ -42,22 +43,38 @@ export const CurrentWeather = () => {
 
   return (
     <div>
-      {temperature && (
-        <Paper sx={{ p: "30px", width: "230px", height: "150px" }}>
+      {temperature ? (
+        <Paper
+          sx={{
+            p: "3rem",
+            width: isSmallScreen ? "auto" : "23rem",
+            height: isSmallScreen ? "10rem" : "15rem",
+          }}
+        >
           <Grid
             container
             direction="column"
             justifyContent="center"
             alignItems="center"
-            sx={{ height: "100%" }}
+            sx={{ height: "100%", position: "relative" }}
           >
-            <p>Current Weather</p>
+            <CardBg />
+            <strong>Current Weather</strong>
             <p>{selectedCountry?.LocalizedName}</p>
             <p>
               {temperature} {temperatureMode === "Metric" ? "C" : "F"}
             </p>
           </Grid>
         </Paper>
+      ) : (
+        <Skeleton
+          animation="wave"
+          variant="rectangular"
+          sx={{
+            width: isSmallScreen ? "auto" : "23rem",
+            height: isSmallScreen ? "10rem" : "15rem",
+          }}
+        />
       )}
     </div>
   );
