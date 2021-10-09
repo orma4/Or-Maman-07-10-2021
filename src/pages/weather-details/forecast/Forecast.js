@@ -24,7 +24,7 @@ export const Forecast = () => {
           endpoint = `/forecasts/v1/daily/5day/${selectedCountry.Key}?apikey=${API_KEY}`;
         }
 
-        // const response = await http.get("/__mocks__/five-days-forecast.json");
+        //const response = await http.get("/__mocks__/five-days-forecast.json");
         const response = await http.get(endpoint);
         dispatch(setForecast(response.data.DailyForecasts));
       } catch (error) {

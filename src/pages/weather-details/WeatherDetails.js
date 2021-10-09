@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import {useHistory} from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import SearchCity from "./search-city/SearchCity";
 import CurrentWeather from "./current-weather/CurrentWeather";
 import Forecast from "./forecast/Forecast";
@@ -12,9 +12,9 @@ import { setError } from "../../redux/slices/rootSlice";
 
 export const WeatherDetails = () => {
   const dispatch = useDispatch();
-  const {selectedCountry} = useSelector((state) => state.countries);
+  const { selectedCountry } = useSelector((state) => state.countries);
   const history = useHistory();
-  const refFromFavorites = history.location.search.includes('from-favorites');
+  const refFromFavorites = history.location.search.includes("from-favorites");
 
   useEffect(() => {
     // BONUS Mission: Initiate the app with current location data
@@ -31,6 +31,7 @@ export const WeatherDetails = () => {
         const response = await http.get(
           `/locations/v1/cities/geoposition/search?apikey=${API_KEY}&q=${coords.latitude},${coords.longitude}`
         );
+        // const response = await http.get("/__mocks__/geolocation.json");
 
         dispatch(setSelectedCountry(response.data));
       } catch (e) {
@@ -46,7 +47,6 @@ export const WeatherDetails = () => {
     if (!refFromFavorites && selectedCountry.Key === undefined) {
       getCurrentLocation();
     }
-
   }, [dispatch, refFromFavorites, selectedCountry.Key]);
 
   return (
