@@ -3,6 +3,7 @@ import {
   addToFavorites,
   removeFromFavorites,
 } from "../../../redux/slices/countriesSlice";
+import { Paper } from "@mui/material";
 
 export const AddToFavorite = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ export const AddToFavorite = () => {
   return (
     <>
       {selectedCountry?.LocalizedName && (
-        <div>
+        <Paper sx={{ p: "30px", width: "230px", height: "150px" }}>
           {existInFavorites ? (
             <button
               onClick={() => dispatch(removeFromFavorites(selectedCountry.Key))}
@@ -28,7 +29,7 @@ export const AddToFavorite = () => {
               Add to favorites
             </button>
           )}
-        </div>
+        </Paper>
       )}
     </>
   );

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   error: "",
+  themeMode: "light",
 };
 
 export const rootSlice = createSlice({
@@ -11,8 +12,11 @@ export const rootSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
+    toggleThemeMode: (state) => {
+      state.themeMode = state.themeMode === "light" ? "dark" : "light";
+    },
   },
 });
 
-export const { setError } = rootSlice.actions;
+export const { setError, toggleThemeMode } = rootSlice.actions;
 export default rootSlice.reducer;

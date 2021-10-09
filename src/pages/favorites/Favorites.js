@@ -1,17 +1,35 @@
 import { useDispatch, useSelector } from "../../redux/hooks";
+import { setSelectedCountry } from "../../redux/slices/countriesSlice";
+import { useHistory } from "react-router-dom";
 
 export const Favorites = () => {
-  const { favorites } = useSelector((state) => state.countries);
+  const { favorites, temperatureMode } = useSelector(
+    (state) => state.countries
+  );
   const dispatch = useDispatch();
-  console.log(favorites);
+  const history = useHistory();
+
+  const handleFavoriteClick = (LocalizedName, Key) => {
+    dispatch(setSelectedCountry({ LocalizedName, Key }));
+    history.push("/");
+  };
 
   return (
     <div>
       {favorites?.map(({ country, currentWeather }) => {
+        const temperature = currentWeather?.Temperature[temperatureMode].Value;
+
         return (
-          <div key={country.Key}>
+          <div
+            key={country.Key}
+            onClick={() =>
+              handleFavoriteClick(country.LocalizedName, country.Key)
+            }
+          >
             <p>{country.LocalizedName}</p>
-            <p>{currentWeather.Temperature.Metric.Value} C</p>
+            <p>
+              {temperature} {temperatureMode === "Metric" ? "C" : "F"}
+            </p>
             <p>{currentWeather.WeatherText}</p>
           </div>
         );

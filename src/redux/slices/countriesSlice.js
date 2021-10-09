@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  selectedCountry: {},
+  temperatureMode: "Metric",
+  selectedCountry: {
+    Key: "215854",
+    LocalizedName: "Tel Aviv",
+  },
   currentWeather: {},
   forecast: [],
   favorites: [],
@@ -33,6 +37,10 @@ export const countriesSlice = createSlice({
       );
       state.favorites.splice(indexToRemove, 1);
     },
+    toggleTemperatureMode: (state) => {
+      state.temperatureMode =
+        state.temperatureMode === "Metric" ? "Imperial" : "Metric";
+    },
   },
 });
 
@@ -42,5 +50,6 @@ export const {
   setForecast,
   addToFavorites,
   removeFromFavorites,
+  toggleTemperatureMode,
 } = countriesSlice.actions;
 export default countriesSlice.reducer;

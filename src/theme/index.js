@@ -1,24 +1,10 @@
-import { createTheme } from "@mui/material/styles";
-
-const theme = createTheme({
+const getDesignTokens = (mode) => ({
   typography: {
     htmlFontSize: 10,
-    fontFamily: [
-      "-apple-system",
-      "BlinkMacSystemFont",
-      '"Segoe UI"',
-      "Roboto",
-      '"Helvetica Neue"',
-      "Arial",
-      "sans-serif",
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(","),
   },
   palette: {
-    mode: "light",
+    mode,
   },
 });
 
-export default theme;
+export default getDesignTokens;
