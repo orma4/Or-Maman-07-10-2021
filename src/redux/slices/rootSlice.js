@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   error: "",
-  themeMode: "dark",
+  themeMode: "light",
 };
 
 export const rootSlice = createSlice({

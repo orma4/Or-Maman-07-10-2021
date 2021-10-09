@@ -1,16 +1,20 @@
 import { useEffect } from "react";
+import {useHistory} from 'react-router-dom';
 import SearchCity from "./search-city/SearchCity";
 import CurrentWeather from "./current-weather/CurrentWeather";
 import Forecast from "./forecast/Forecast";
 import AddToFavorite from "./add-to-favorite/AddToFavorite";
 import { Grid } from "@mui/material";
 import http, { API_KEY } from "../../axios";
-import { useDispatch } from "../../redux/hooks";
+import { useDispatch, useSelector } from "../../redux/hooks";
 import { setSelectedCountry } from "../../redux/slices/countriesSlice";
 import { setError } from "../../redux/slices/rootSlice";
 
 export const WeatherDetails = () => {
   const dispatch = useDispatch();
+  const {selectedCountry} = useSelector((state) => state.countries);
+  const history = useHistory();
+  const refFromFavorites = history.location.search.includes('from-favorites');
 
   useEffect(() => {
     // BONUS Mission: Initiate the app with current location data
@@ -38,8 +42,12 @@ export const WeatherDetails = () => {
       }
     };
 
-    getCurrentLocation();
-  }, [dispatch]);
+    // Run only at first render (Do not run this call if user coming from favorites route)
+    if (!refFromFavorites && selectedCountry.Key === undefined) {
+      getCurrentLocation();
+    }
+
+  }, [dispatch, refFromFavorites, selectedCountry.Key]);
 
   return (
     <div>

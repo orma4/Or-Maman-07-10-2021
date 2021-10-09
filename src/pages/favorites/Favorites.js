@@ -12,7 +12,7 @@ export const Favorites = () => {
 
   const handleFavoriteClick = (LocalizedName, Key) => {
     dispatch(setSelectedCountry({ LocalizedName, Key }));
-    history.push("/");
+    history.push("/?from-favorites");
   };
 
   return (
