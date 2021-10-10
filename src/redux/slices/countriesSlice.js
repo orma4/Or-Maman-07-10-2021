@@ -33,8 +33,8 @@ export const countriesSlice = createSlice({
       const indexToRemove = state.favorites.find(
         (favorite) => favorite.Key === keyToRemove
       );
-      state.favorites.splice(indexToRemove, 1);
-      localStorage.setItem("favorites", JSON.stringify(state.favorites));
+      const favorties = state.favorites.splice(indexToRemove, 1);
+      localStorage.setItem("favorites", JSON.stringify(favorties));
     },
     toggleTemperatureMode: (state) => {
       state.temperatureMode =
