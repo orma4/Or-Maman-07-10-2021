@@ -15,10 +15,12 @@ export const SearchCity = () => {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        //const response = await http.get("/__mocks__/autcomplete-search.json");
+        //const response = await http.get("/__mocks__/autcomplete-search.json"); //For development
+
         const response = await http.get(
           `/locations/v1/cities/autocomplete?apikey=${API_KEY}&q=${searchTerm}`
         );
+
         setCitiesOptions(response.data);
       } catch (e) {
         dispatch(setError("Something went wrong. Please try again later."));

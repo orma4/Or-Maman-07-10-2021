@@ -22,10 +22,10 @@ const StyledContainer = styled("div")`
 
 export const AddToFavorite = () => {
   const dispatch = useDispatch();
-  const { selectedCountry, favorites } = useSelector(
-    (state) => state.countries
-  );
-  const existInFavorites = favorites.find(
+  const { selectedCountry } = useSelector((state) => state.countries);
+  const localFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+  const existInFavorites = localFavorites.find(
     (favorite) => favorite.country.Key === selectedCountry.Key
   );
 

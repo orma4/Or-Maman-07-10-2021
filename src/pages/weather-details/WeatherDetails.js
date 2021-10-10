@@ -28,10 +28,11 @@ export const WeatherDetails = () => {
       const { coords } = await getInitialCoords();
 
       try {
+        // const response = await http.get("/__mocks__/geolocation.json"); //For development
+
         const response = await http.get(
           `/locations/v1/cities/geoposition/search?apikey=${API_KEY}&q=${coords.latitude},${coords.longitude}`
         );
-        // const response = await http.get("/__mocks__/geolocation.json");
 
         dispatch(setSelectedCountry(response.data));
       } catch (e) {

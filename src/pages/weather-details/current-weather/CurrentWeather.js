@@ -5,6 +5,15 @@ import { useSelector, useDispatch } from "../../../redux/hooks";
 import { setError } from "../../../redux/slices/rootSlice";
 import { setCurrentWeather } from "../../../redux/slices/countriesSlice";
 import { CardBg } from "../../../components";
+import { makeStyles } from "@mui/styles";
+
+export const useStyles = makeStyles((theme) => ({
+  paperRoot: {
+    border: "3px solid transparent",
+    borderImage: `linear-gradient(#2193b0,#6dd5ed);`,
+    borderImageSlice: "1"
+  },
+}));
 
 export const CurrentWeather = () => {
   const [temperature, setTemperature] = useState("");
@@ -13,11 +22,15 @@ export const CurrentWeather = () => {
   );
   const dispatch = useDispatch();
   const isSmallScreen = useMediaQuery("(max-width: 767px)");
+  const { themeMode } = useSelector((state) => state.root);
+
+  const classes = useStyles();
 
   useEffect(() => {
     const getCurrentWeather = async () => {
       try {
-        // const response = await http.get("/__mocks__/current-conditions.json");
+       // const response = await http.get("/__mocks__/current-conditions.json"); //For development
+
         const response = await http.get(
           `/currentconditions/v1/${selectedCountry.Key}/?apikey=${API_KEY}`
         );
@@ -45,6 +58,7 @@ export const CurrentWeather = () => {
     <div>
       {temperature ? (
         <Paper
+          className={themeMode === "dark" ? classes.paperRoot : ""}
           sx={{
             p: "3rem",
             width: isSmallScreen ? "auto" : "23rem",
@@ -59,11 +73,14 @@ export const CurrentWeather = () => {
             sx={{ height: "100%", position: "relative" }}
           >
             <CardBg />
-            <strong>Current Weather</strong>
-            <p>{selectedCountry?.LocalizedName}</p>
+
+            <h2 style={{ marginBottom: 15 }}>
+              {selectedCountry?.LocalizedName}
+            </h2>
             <p>
-              {temperature} {temperatureMode === "Metric" ? "C" : "F"}
+              {temperature} {temperatureMode === "Metric" ? "C°" : "F°"}
             </p>
+            <p>{currentWeather.WeatherText}</p>
           </Grid>
         </Paper>
       ) : (

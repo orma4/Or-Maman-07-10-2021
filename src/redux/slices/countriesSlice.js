@@ -26,6 +26,7 @@ export const countriesSlice = createSlice({
         country: action.payload,
         currentWeather: state.currentWeather,
       });
+      localStorage.setItem("favorites", JSON.stringify(state.favorites));
     },
     removeFromFavorites: (state, action) => {
       const keyToRemove = action.payload;
@@ -33,6 +34,7 @@ export const countriesSlice = createSlice({
         (favorite) => favorite.Key === keyToRemove
       );
       state.favorites.splice(indexToRemove, 1);
+      localStorage.setItem("favorites", JSON.stringify(state.favorites));
     },
     toggleTemperatureMode: (state) => {
       state.temperatureMode =

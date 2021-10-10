@@ -49,7 +49,7 @@ export const Navbar = () => {
       <Toolbar sx={{ height: "100%" }}>
         <Grid container justifyContent="space-between" alignItems="center">
           <Grid item>
-            <span style={{ fontWeight: "bold" }}>Herolo weather task</span>
+            <span style={{ fontWeight: "bold" }}>Herolo Weather</span>
           </Grid>
 
           <StyledGrid item>
@@ -92,21 +92,25 @@ export const Navbar = () => {
                 </Button>
               </Tooltip>
 
-              <Button
-                variant="contained"
-                onClick={() => dispatch(toggleTemperatureMode())}
-                sx={{ fontWeight: "bold" }}
+              <Tooltip
+                title={`${
+                  temperatureMode === "Metric"
+                    ? "Change to Farenheit"
+                    : "Change to Celcius"
+                }`}
               >
-                {temperatureMode === "Metric" ? (
-                  <Tooltip title="Change to Farenheit">
+                <Button
+                  variant="contained"
+                  onClick={() => dispatch(toggleTemperatureMode())}
+                  sx={{ fontWeight: "bold" }}
+                >
+                  {temperatureMode === "Metric" ? (
                     <ChangeCircleIcon />
-                  </Tooltip>
-                ) : (
-                  <Tooltip title="Change to Celcius">
+                  ) : (
                     <ChangeCircleOutlinedIcon />
-                  </Tooltip>
-                )}
-              </Button>
+                  )}
+                </Button>
+              </Tooltip>
             </Stack>
           </Grid>
         </Grid>

@@ -6,12 +6,15 @@ import { Paper, Grid, Skeleton } from "@mui/material";
 import http, { API_KEY } from "../../../axios";
 import moment from "moment";
 import { CardBg } from "../../../components";
+import { useStyles } from "../current-weather/CurrentWeather";
 
 export const Forecast = () => {
   const { selectedCountry, forecast, temperatureMode } = useSelector(
     (state) => state.countries
   );
   const dispatch = useDispatch();
+  const classes = useStyles();
+  const { themeMode } = useSelector((state) => state.root);
 
   useEffect(() => {
     const getFiveDaysForecast = async () => {
@@ -24,8 +27,10 @@ export const Forecast = () => {
           endpoint = `/forecasts/v1/daily/5day/${selectedCountry.Key}?apikey=${API_KEY}`;
         }
 
-        //const response = await http.get("/__mocks__/five-days-forecast.json");
+        //const response = await http.get("/__mocks__/five-days-forecast.json"); //For development
+
         const response = await http.get(endpoint);
+
         dispatch(setForecast(response.data.DailyForecasts));
       } catch (error) {
         dispatch(setError(`Can't load forecast. Please try again later.`));
@@ -44,6 +49,7 @@ export const Forecast = () => {
             return (
               <Grid item xs={12} md={2} key={index}>
                 <Paper
+                  className={themeMode === "dark" ? classes.paperRoot : ""}
                   sx={{
                     height: "15rem",
                     display: "flex",
@@ -56,8 +62,8 @@ export const Forecast = () => {
                   <CardBg />
                   <strong>{moment(Date).format("dddd")}</strong>
                   <p>
-                    {Temperature?.Maximum?.Value}
-                    {temperatureMode === "Metric" ? "C" : "F"}
+                    {Temperature?.Maximum?.Value}{" "}
+                    {temperatureMode === "Metric" ? "C°" : "F°"}
                   </p>
                 </Paper>
               </Grid>
